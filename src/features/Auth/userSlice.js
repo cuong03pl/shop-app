@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "api/userApi";
 const initialState = {
-  current: {},
+  current: JSON.parse(localStorage.getItem("user")) || {},
   settings: {},
 };
 export const register = createAsyncThunk("user/register", async (payload) => {
@@ -9,9 +9,10 @@ export const register = createAsyncThunk("user/register", async (payload) => {
   const data = await userApi.register(payload);
 
   // luu vao local storage
-  localStorage.setItem("access_token", data.jwt);
-  localStorage.setItem("user", JSON.stringify(data.user));
+  localStorage.setItem("access_token", data.data.jwt);
+  localStorage.setItem("user", JSON.stringify(data.data.user));
   console.log(data);
+  console.log(initialState);
   return data.data.user;
 });
 export const login = createAsyncThunk("user/login", async (payload) => {
@@ -19,8 +20,8 @@ export const login = createAsyncThunk("user/login", async (payload) => {
   const data = await userApi.login(payload);
 
   // luu vao local storage
-  localStorage.setItem("access_token", data.jwt);
-  localStorage.setItem("user", JSON.stringify(data.user));
+  localStorage.setItem("access_token", data?.data.jwt);
+  localStorage.setItem("user", JSON.stringify(data?.data.user));
 
   return data.data.user;
 });

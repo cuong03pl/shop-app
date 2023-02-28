@@ -23,7 +23,7 @@ const MODE = {
 };
 function Header() {
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(MODE.register);
+  const [mode, setMode] = useState(MODE.login);
   const handleClickOpen = () => {
     setOpen(true);
   };
