@@ -9,12 +9,16 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import Register from "features/Auth/components/Register/Register";
 import Login from "features/Auth/components/Login/Login";
+import { useDispatch, useSelector } from "react-redux";
+import { Menu, MenuItem } from "@mui/material";
+import { logout } from "features/Auth/userSlice";
 const cx = classNames.bind(styles);
 const theme = createTheme({});
 const MODE = {
@@ -24,6 +28,10 @@ const MODE = {
 function Header() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.login);
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
+  const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,7 +39,15 @@ function Header() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+  const handleLogOut = () => {
+    dispatch(logout());
+  };
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
@@ -41,12 +57,29 @@ function Header() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link>Shop App</Link>
             </Typography>
-            <Button onClick={handleClickOpen} color="inherit">
-              Đăng kí
-            </Button>
+            {isLoggedIn && (
+              <AccountCircleIcon onClick={(e) => handleClick(e)} />
+            )}
+            {!isLoggedIn && (
+              <Button onClick={handleClickOpen} color="inherit">
+                Đăng nhập
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
-
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleCloseMenu}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+          <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+        </Menu>
         <Dialog disableEscapeKeyDown={true} open={open} onClose={handleClose}>
           <DialogContent sx={{ padding: "8px 24px", minWidth: "400px" }}>
             {mode === MODE.register && (

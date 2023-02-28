@@ -11,8 +11,7 @@ export const register = createAsyncThunk("user/register", async (payload) => {
   // luu vao local storage
   localStorage.setItem("access_token", data.data.jwt);
   localStorage.setItem("user", JSON.stringify(data.data.user));
-  console.log(data);
-  console.log(initialState);
+
   return data.data.user;
 });
 export const login = createAsyncThunk("user/login", async (payload) => {
@@ -28,7 +27,13 @@ export const login = createAsyncThunk("user/login", async (payload) => {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state, actions) => {
+      state.current = {};
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+    },
+  },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder
@@ -44,5 +49,5 @@ export const userSlice = createSlice({
       });
   },
 });
-
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
