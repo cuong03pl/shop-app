@@ -1,13 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { store } from "app/store";
+import GlobalStyles from "components/GlobalStyles/GlobalStyles";
+import { SnackbarProvider } from "notistack";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <GlobalStyles>
+        <Provider store={store}>
+          <SnackbarProvider
+            anchorOrigin={{ horizontal: "right", vertical: "top" }}
+          >
+            <App />
+          </SnackbarProvider>
+        </Provider>
+      </GlobalStyles>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
