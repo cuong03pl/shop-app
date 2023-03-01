@@ -20,7 +20,13 @@ function ProductItem({ data }) {
 
       <Typography variant="body2">{data.name}</Typography>
       <Typography variant="body2">
-        {data.originalPrice} -{data.promotionPercent}
+        <Box component={"span"} fontSize={"16px"} fontWeight={700}>
+          {new Intl.NumberFormat("vi-Vi", {
+            style: "currency",
+            currency: "VND",
+          }).format(data.originalPrice)}
+        </Box>
+        {data.promotionPercent > 0 ? ` -${data.promotionPercent}% ` : ""}
       </Typography>
     </Box>
   );
