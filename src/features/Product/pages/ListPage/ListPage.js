@@ -3,14 +3,17 @@ import PropTypes from "prop-types";
 import { Box, Container, Grid, Paper } from "@mui/material";
 import productApi from "api/productApi";
 import ProductSkeletonList from "features/Product/components/ProductSkeletonList";
+import ProductList from "features/Product/components/ProductList";
 
 function ListPage(props) {
   const [isLoading, setIsLoading] = useState(true);
+  const [productList, setProductList] = useState([]);
   useEffect(() => {
     setIsLoading(false);
     const fetchApi = async () => {
-      const res = await productApi.getAll({ _page: 1, _limit: 10 });
-      console.log(res);
+      await productApi
+        .getAll({ _page: 1, _limit: 10 })
+        .then((res) => setProductList(res.data.data));
     };
     setIsLoading(false);
     fetchApi();
@@ -22,9 +25,13 @@ function ListPage(props) {
           <Grid item width={"255px"}>
             <Paper elevation={0}>1</Paper>
           </Grid>
-          <Grid item flex={"1 1 auto"}>
+          <Grid item flex={"1 1 0"}>
             <Paper elevation={0}>
-              {isLoading ? <ProductSkeletonList length={6} /> : "hello"}
+              {isLoading ? (
+                <ProductSkeletonList length={6} />
+              ) : (
+                <ProductList data={productList} />
+              )}
             </Paper>
           </Grid>
         </Grid>
