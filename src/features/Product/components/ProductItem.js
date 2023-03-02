@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Box, Skeleton, Typography } from "@mui/material";
 
 function ProductItem({ data }) {
-  console.log(data);
   return (
     <Box padding={1}>
       <Box padding={1}>
