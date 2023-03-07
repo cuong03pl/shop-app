@@ -17,7 +17,6 @@ function FilterByCategory({ onChange }) {
       onChange(item.id);
     }
   };
-
   return (
     <Box>
       <Typography variant="subtitle2">Danh mục sản phẩm</Typography>

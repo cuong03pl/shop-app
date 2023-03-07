@@ -7,18 +7,20 @@ import FilterByPrice from "./filters/FilterByPrice";
 function ProductFilters({ filters, onChange }) {
   const handleCategoryChange = (newCategoryId) => {
     if (onChange) {
-      console.log(filters);
-      console.log(newCategoryId);
       onChange({
-        ...filters,
         "category.id": newCategoryId,
       });
+    }
+  };
+  const handlePriceChange = (values) => {
+    if (onChange) {
+      onChange(values);
     }
   };
   return (
     <Box>
       <FilterByCategory onChange={handleCategoryChange} />
-      {/* <FilterByPrice onChange={handleCategoryChange} /> */}
+      <FilterByPrice onChange={handlePriceChange} />
     </Box>
   );
 }
