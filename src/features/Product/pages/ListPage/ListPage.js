@@ -5,6 +5,7 @@ import productApi from "api/productApi";
 import ProductSkeletonList from "features/Product/components/ProductSkeletonList";
 import ProductList from "features/Product/components/ProductList";
 import ProductSort from "features/Product/components/ProductSort";
+import ProductFilters from "features/Product/components/ProductFilters";
 
 function ListPage(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,12 +43,20 @@ function ListPage(props) {
       _sort: newValue,
     }));
   };
+  const handleFilterChange = (newFilters) => {
+    setFilters((prev) => ({
+      ...prev,
+      ...newFilters,
+    }));
+  };
   return (
     <Box>
       <Container>
         <Grid container spacing={1}>
           <Grid item width={"255px"}>
-            <Paper elevation={0}>1</Paper>
+            <Paper elevation={0} sx={{ padding: "12px" }}>
+              <ProductFilters filters={filters} onChange={handleFilterChange} />
+            </Paper>
           </Grid>
           <Grid item flex={"1 1 0"}>
             <Paper elevation={0} sx={{ paddingBottom: "24px" }}>
